@@ -1,5 +1,5 @@
 import random
-import linear_neuron
+import simple_linear_neuron
 
 train_data = []
 train_size = 20
@@ -10,7 +10,7 @@ for i in range(train_size):
     y_ = x1 * 2 + x2 * -1 + x3 * -3 + 1
     train_data.append([x1, x2, x3, y_])
 
-neuron = linear_neuron.LinearNeuron(len(train_data[0])-1, .001)
+neuron = simple_linear_neuron.LinearNeuron(len(train_data[0]) - 1, .001)
 
 for epoch in range(100):
     for example in train_data:

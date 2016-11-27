@@ -1,5 +1,5 @@
 import random
-import logistic_neuron
+import simple_logistic_neuron
 
 def get_accuracy(test_data):
     num_right = 0
@@ -29,7 +29,7 @@ train_amount = int(len(data) * train_percent)
 train_data = data[:train_amount]
 test_data = data[train_amount:]
 
-neuron = logistic_neuron.LogisticNeuron(len(train_data[0]) - 1, .1)
+neuron = simple_logistic_neuron.LogisticNeuron(len(train_data[0]) - 1, .1)
 
 start = 0
 print_num = 1000
@@ -42,7 +42,7 @@ for i in range(10000):
     y = neuron.predict(x)
     neuron.update_w(x, y_)
 
-    if(i % print_num == 0):
+    if i % print_num == 0:
         print("error", y - y_, "x", x, "y_", y_, "y:", y, "w", neuron.weights)
         print(get_accuracy(test_data))
 
