@@ -9,9 +9,9 @@ def get_accuracy(test_data):
         y_ = example[-1]
 
         neural_network.set_input_layer(input_layer, x)
-        y = neuron2.predict()
+        y = output_neuron.predict()
 
-        neural_network.clear_pre_vals([neuron1, neuron2])
+        neural_network.clear_pre_vals(all_neurons)
 
         pred = int(y > .5)
 
@@ -21,47 +21,47 @@ def get_accuracy(test_data):
     return num_right / float(len(test_data))
 
 data = []
-train_size = 500
-for i in range(train_size):
-    x1 = random.randint(0, 10)
-    x2 = random.randint(0, 10)
-    x3 = random.randint(-5, 5)
-    y_ = int((x1*-1 + x2*3 + x3 * -9 - 5) > 0)
-    data.append([x1, x2, x3, y_])
+data_size = 10000
+for i in range(data_size):
+    x1 = (random.random() * 20) - 10
+    x2 = (random.random() * 20) - 10
+    y_ = int((x1 * x2) > 0)
+    data.append([x1, x2, y_])
 
-train_percent = .6
+train_percent = .9
 train_amount = int(len(data) * train_percent)
 train_data = data[:train_amount]
 test_data = data[train_amount:]
 
 input_layer = [neural_network.ConstNode() for i in range(len(train_data[0])-1)]
 
-neuron1 = neural_network.Neuron(input_layer, .1)
-sigmoid1 = neural_network.SigmoidNode(neuron1)
-neuron2 = neural_network.Neuron([sigmoid1], .1)
-sigmoid2 = neural_network.SigmoidNode(neuron2)
+layer, all_neurons = neural_network.create_fully_connected(input_layer, [3, 2], .1)
+
+output_neuron = neural_network.Neuron(layer, .1)
+output_sigmoid = neural_network.SigmoidNode(output_neuron)
+
+all_neurons.append(output_neuron)
 
 start = 0
-print_num = 10000
+print_num = 100000
 
-neuron2.weights = [1,0]
-for i in range(100000):
+for i in range(1000000):
     example = train_data[start]
 
     x = example[:-1]
     y_ = example[-1]
 
     neural_network.set_input_layer(input_layer, x)
-    y = neuron2.predict()
+    y = output_sigmoid.predict()
     error = y - y_
 
-    neuron2.get_all_gradient()
-    neuron2.update_w_all(error)
+    output_sigmoid.get_all_gradient()
+    output_sigmoid.update_w_all(error)
 
-    neural_network.clear_pre_vals([neuron1, neuron2])
+    neural_network.clear_pre_vals(all_neurons)
 
     if i % print_num == 0:
-        print("error", y - y_, "x", x, "y_", y_, "y:", y, "w", neuron1.weights, neuron2.weights)
+        print("error", y - y_, "x", x, "y_", y_, "y:", y)
         print(get_accuracy(test_data))
 
     start += 1

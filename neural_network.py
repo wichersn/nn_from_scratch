@@ -1,4 +1,5 @@
 import math
+import random
 
 class Node:
     def get_average_out_gradient(self):
@@ -35,7 +36,7 @@ class Neuron(Node):
         self.pre_gradient = []
 
         for i in range(len(self.input_nodes)):
-            self.weights.append(0)
+            self.weights.append(random.random()-.5)
             self.input_nodes[i].output_nodes.append(self)
             self.pre_gradient.append(None)
 
@@ -121,10 +122,18 @@ def set_input_layer(input_layer, values):
     for i in range(len(input_layer)):
         input_layer[i].value = values[i]
 
-def optimzer(root_node, y_):
-    nodes = [root_node]
-    
-    while len(nodes) > 0:
-        for node in nodes:
-            new_nodes.extend()
+def create_fully_connected(input_layer, layer_sizes, learning_rate):
+    layer = input_layer
+    all_neurons = []
+    for layer_size in layer_sizes:
+        next_layer = []
+        for i in range(layer_size):
+            neuron = Neuron(layer, learning_rate)
+            sigmoid = SigmoidNode(neuron)
+
+            next_layer.append(sigmoid)
+            all_neurons.append(neuron)
+        layer = next_layer
+
+    return layer, all_neurons
 
