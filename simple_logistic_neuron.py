@@ -1,5 +1,6 @@
 import math
 
+
 class LogisticNeuron:
     def __init__(self, num_weights, learning_rate):
         self.weights = []
