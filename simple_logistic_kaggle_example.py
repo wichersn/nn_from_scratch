@@ -2,6 +2,7 @@ import simple_logistic_neuron
 import numpy as np
 import pandas as pd
 
+# This uses the data from the Kaggle competition here: https://www.kaggle.com/c/ghouls-goblins-and-ghosts-boo
 
 df = pd.read_csv('../kaggle_ghost_data/train.csv', header=0)
 
